@@ -1,6 +1,6 @@
 # mfavalidator
 ---
-## *Currently this is only checking for softwareOathmethods and the Microsoft Authenticator app if your requirements are different you will want to change line 36 & 71 of the Get-UsersMFAStatus method*
+### *Currently this is only checking for softwareOathmethods and the Microsoft Authenticator app if your requirements are different you will want to change line 36 & 71 of the Get-UsersMFAStatus.ps1 file*
 
 #### mfavalidator is used to disable user accounts after 7 days of MFA not being setup on their Azure AD account
 
