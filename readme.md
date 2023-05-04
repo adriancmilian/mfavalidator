@@ -24,7 +24,15 @@ Using the Microsoft Graph API we're able to assign custom attributes to users to
 ## Description
 The script mfavalidator.ps1 will import the functions by calling mfavalidator.psm1, once the functions are imported it will get the access token by authenticating with the service principal that you setup.
 
-The script will grab all enabled licensed users in your tenant and check if MFA is enabled on each user and set custom security attributes for their user object. If MFA is enabled it will set the attribute mfaenabled = true, if MFA is disabled it will set mfaenabled = false & dateflagged = (Current Date). Once the attributes are set it will gather the users with MFA disabled for over 7 days using the dateflagged attribute and store them in an array. If the user is a synced user from on-prem it will get the users samAccountName and disable their account on-premises. If the user does not have a samAccountName and are cloud-only it will disable them in AzureAD. Once disabled it will clear the dateflagged attribute.
+The script will grab all enabled licensed users in your tenant, check if MFA is enabled on each user, and set custom security attributes for their user object. 
+
+If MFA is enabled it will set the attribute: **mfaenabled = true**.
+
+If MFA is disabled it will set the attributes to the following: **mfaenabled = false & dateflagged = (Current Date)**. 
+
+Once the attributes are set it will gather the users with MFA disabled for over 7 days by querying the dateflagged attribute and store them in an array. 
+
+If the user is a synced user from on-prem it will get the users samAccountName and disable their account on-premises. If the user does not have a samAccountName and are cloud-only it will disable them in AzureAD. Once disabled it will clear the dateflagged attribute.
 
 
 
