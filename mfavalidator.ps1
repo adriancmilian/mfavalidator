@@ -51,25 +51,20 @@ Process {
     }
     
     if ($usersToDisable) {
-        if ($usersToDisable.count -gt 1000) {
-            exit
-        }
-        else {
-            Write-Verbose "Disabling users..."
-            foreach ($user in $usersToDisable) {
-                $samaccountname = Get-SamAccountName -authheader $authHeader -userid $user
-                if ($samaccountname) {
-                    Disable-ADAccount -Identity $samaccountname
-                    $disabledAccounts.Add($user)
-                }
-                else {
-                    Write-Warning "No on-prem samaccountname found for user $user"
-                    $cloudOnlyAccounts.Add($user)
-                }
+        Write-Verbose "Disabling users..."
+        foreach ($user in $usersToDisable) {
+            $samaccountname = Get-SamAccountName -authheader $authHeader -userid $user
+            if ($samaccountname) {
+                Disable-ADAccount -Identity $samaccountname
+                $disabledAccounts.Add($user)
             }
-            Disable-MgUser -userList $cloudOnlyAccounts -authheader $authHeader
-            Clear-CustomSecAttributes -userList $disabledAccounts -authheader $authHeader
+            else {
+                Write-Warning "No on-prem samaccountname found for user $user"
+                $cloudOnlyAccounts.Add($user)
+            }
         }
+        Disable-MgUser -userList $cloudOnlyAccounts -authheader $authHeader
+        Clear-CustomSecAttributes -userList $disabledAccounts -authheader $authHeader
     }
 }
 
